@@ -53,23 +53,6 @@ describe('RESTful API', function () {
 
       });
 
-      /* START SOLUTION */
-      it('[SOLUTION] responds with JSON of all users', function () {
-
-        request(app)
-          .get('/api/users')
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            expect(getBody(res)).to.deep.equal(testUsers);
-            done();
-          });
-
-      });
-      /* END SOLUTION */
     });
 
     describe('POST', function () {
@@ -87,68 +70,6 @@ describe('RESTful API', function () {
           .expect(201, done);
 
       });
-
-      /* START SOLUTION */
-      it('[SOLUTION] responds with JSON of the created user', function (done) {
-
-        request(app)
-          .post('/api/users')
-          .send(newUser)
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            expect(getBody(res)).to.deep.equal({
-              // Given the initial state of the in-memory "database",
-              // created in the `beforeEach` hook, we know at this point
-              // in the test that the next auto-generated id should be 4
-              id: 4,
-              name: 'Josh',
-              email: 'josh@josh.io'
-            });
-            done();
-
-          });
-
-      });
-
-      it('[SOLUTION] includes the created user in a subsequent GET request to `/api/users', function (done) {
-
-        request(app)
-          .post('/api/users')
-          .send(newUser)
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            request(app)
-              .get('/api/users')
-              .end(function (err, res) {
-
-                if (err) {
-                  return done(err);
-                }
-
-                expect(getBody(res)).to.include.something.that.deep.equals({
-                  // Given the initial state of the in-memory "database",
-                  // created in the `beforeEach` hook, we know at this point
-                  // in the test that the next auto-generated id should be 4
-                  id: 4,
-                  name: 'Josh',
-                  email: 'josh@josh.io'
-                });
-                done();
-
-              });
-
-          });
-
-      });
-      /* END SOLUTION */
     });
 
   });
@@ -164,33 +85,6 @@ describe('RESTful API', function () {
           .expect(200, done);
 
       });
-
-      /* START SOLUTION */
-      it('[SOLUTION] responds with a 404 (Not Found) when there is no user with a matching `id`', function (done) {
-
-        request(app)
-          .get('/api/users/42')
-          .expect(404, done);
-
-      });
-
-      it('[SOLUTION] responds with JSON of the user with a matching `id`', function (done) {
-
-        request(app)
-          .get('/api/users/1')
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            expect(getBody(res)).to.deep.equal(testUsers[0]);
-            done();
-          });
-
-      });
-      /* END SOLUTION */
-
     });
 
     describe('PUT', function () {
@@ -203,94 +97,6 @@ describe('RESTful API', function () {
           .expect(200, done);
 
       });
-
-      /* START SOLUTION */
-      it('[SOLUTION] responds with JSON of the updated user', function (done) {
-
-        request(app)
-          .put('/api/users/1')
-          .send({ name: 'Taka-san' })
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            expect(getBody(res)).to.deep.equal({
-              id: 1,
-              name: 'Taka-san',
-              email: 'taka@taka.com'
-            });
-            done();
-
-          });
-
-      });
-
-      it('[SOLUTION] responds with the updated user in a subsequent GET request to the same `id`', function (done) {
-
-        request(app)
-          .put('/api/users/1')
-          .send({ name: 'Taka-san' })
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            request(app)
-              .get('/api/users/1')
-              .end(function (err, res) {
-
-                if (err) {
-                  return done(err);
-                }
-
-                expect(getBody(res)).to.deep.equal({
-                  id: 1,
-                  name: 'Taka-san',
-                  email: 'taka@taka.com'
-                });
-                done();
-
-              });
-
-          });
-
-      });
-
-      it('[SOLUTION] includes the updated user in a subsequent GET request to `/api/users`', function (done) {
-
-        request(app)
-          .put('/api/users/1')
-          .send({ name: 'Taka-san' })
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            request(app)
-              .get('/api/users')
-              .end(function (err, res) {
-
-                if (err) {
-                  return done(err);
-                }
-
-                expect(getBody(res)).to.include.something.that.deep.equals({
-                  id: 1,
-                  name: 'Taka-san',
-                  email: 'taka@taka.com'
-                });
-                done();
-
-              });
-
-          });
-
-      });
-      /* END SOLUTION */
     });
 
     describe('DELETE', function () {
@@ -302,70 +108,6 @@ describe('RESTful API', function () {
           .expect(200, done);
 
       });
-
-      /* START SOLUTION */
-      it('[SOLUTION] responds with JSON of the deleted user', function (done) {
-
-        request(app)
-          .delete('/api/users/2')
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            expect(getBody(res)).to.deep.equal(testUsers[1]);
-            done();
-
-          });
-
-      });
-
-      it('[SOLUTION] responds with a 404 (Not Found) in a subsequent GET request to the same `id`', function (done) {
-
-        request(app)
-          .delete('/api/users/3')
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            request(app)
-              .get('/api/users/3')
-              .expect(404, done);
-
-          });
-
-      });
-
-      it('[SOLUTION] should not include the deleted user in a subsequent GET request to `api/users`', function (done) {
-
-        request(app)
-          .delete('/api/users/3')
-          .end(function (err, res) {
-
-            if (err) {
-              return done(err);
-            }
-
-            request(app)
-              .get('/api/users')
-              .end(function (err, res) {
-
-                if (err) {
-                  return done(err);
-                }
-
-                expect(getBody(res)).to.not.include.something.that.deep.equals(testUsers[2]);
-                done();
-
-              });
-          });
-
-      });
-      /* END SOLUTION */
-
     });
 
   });

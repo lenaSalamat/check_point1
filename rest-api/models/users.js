@@ -38,38 +38,17 @@ exports.setAll = function (newUsers) {
 };
 
 exports.getOne = function (id) {
-  /* START SOLUTION */
-  return _.findWhere(users, { id: id });
-  /* END SOLUTION */
+
 };
 
 exports.addOne = function (user) {
-  /* START SOLUTION */
-  var userToAdd = _.extend(user, { id: getNextId() });
-  // A non-mutating solution will fail the current test suite
-  users.push(userToAdd);
-  return userToAdd;
-  /* END SOLUTION */
+ 
 };
 
 exports.updateOne = function (id, newProperties) {
-  /* START SOLUTION */
-  var userToUpdate = this.getOne(id);
-  if (userToUpdate) {
-    _.extend(userToUpdate, newProperties);
-  }
-  return userToUpdate;
-  /* END SOLUTION */
+ 
 };
 
 exports.deleteOne = function (id) {
-  /* START SOLUTION */
-  var indexToDelete = _.findIndex(users, function (user) {
-    return user.id === id;
-  });
-
-  if (indexToDelete > -1) {
-    return _.first(users.splice(indexToDelete, 1));
-  }
-  /* END SOLUTION */
+ 
 };
