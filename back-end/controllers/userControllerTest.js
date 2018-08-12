@@ -54,18 +54,42 @@ describe('User Controller', function () {
   it('should have a method that given the name of a user, retrieves their record from the database', function (done) {
     // TODO: Write test(s) for a method exported by `userController` that behaves as described one line above
     // HINT: The `done` passed in is quite important...
+      userSchema.methods.checkForUser = function(cb) {
+      this.model('User').findOne({
+          name: this.name,
+          email: this.email
+      }, function(err, val) {
+          cb(!!val);
+          done();
+      });
+  };
   
   });
 
   it('should have a method that given the name of a user, updates their `email` property', function (done) {
     // TODO: Write test(s) for a method exported by `userController` that behaves as described one line above
     // HINT: The `done` passed in is quite important...
+      userSchema.methods.checkForUser = function(cb) {
+      this.model('User').findOneAndUpdate({
+          name: this.name,
+          email: this.newEmail
+      }, function(err, val) {
+          cb(!!val);
+          done();
+      });
+  };
     
   });
 
   it('should have a method that reads all users from the database at once', function (done) {
     // TODO: Write test(s) for a method exported by `userController` that behaves as described one line above
     // HINT: The `done` passed in is quite important...
+    userSchema.methods.checkForUser = function(cb) {
+      this.model('User').find({}, function(err, val) {
+          cb(!!val);
+          done();
+      });
+  };
    
   });
 

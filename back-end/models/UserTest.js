@@ -12,6 +12,16 @@ describe('User Model', function () {
     expect(User.schema).to.exist;
   });
 
+  it('should have a Name property', function(){
+  	expect(User.name).to.exist;
+  })
 
+  it('should have a Email property', function(){
+	expect(User.email).to.exist;
+  })
+
+  it('User module should be exported'), function(){
+  	expect(module.exports = User).to.be.true;
+  }
 
 });

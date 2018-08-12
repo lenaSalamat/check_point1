@@ -1,5 +1,5 @@
 var _ = require('underscore');
-
+//var user = require('../back-end/models/User.js')
 // The seeded state of our in-memory "database"
 var users = [
   {
@@ -38,17 +38,46 @@ exports.setAll = function (newUsers) {
 };
 
 exports.getOne = function (id) {
-
+ users.findOne({id:id}, function(err,data){
+  if(err){
+    console.log(err);
+  } else {
+    //res.json(data);
+    console.log(data);
+  }
+ })
 };
 
 exports.addOne = function (user) {
- 
+ var id = user.id;
+ var name = user.name;
+ var email = user.email;
+ var newUser = {
+   id:id,
+   name:name,
+   email:email
+ }
+ user = new user(newUser);
+ user.save();
 };
 
 exports.updateOne = function (id, newProperties) {
- 
+  users.findOneAndUpdate({id:id},newProperties,funstion(err,updated){
+    if(err){
+      console.log(err);
+    } else {
+      console.log(updated);
+    }
+  })
+};
 };
 
 exports.deleteOne = function (id) {
- 
+ users.findOneAndRemove({id:id}, function(err,deleted){
+  if(err){
+    console.log(err);
+  } else {
+    console.log(deleted);
+  }
+ })
 };
